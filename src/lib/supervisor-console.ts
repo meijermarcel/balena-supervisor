@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { TransformableInfo } from 'logform';
 import * as winston from 'winston';
+import LogBuffer from '../logging/log-buffer';
 
 const levels = {
 	error: 0,
@@ -10,6 +11,7 @@ const levels = {
 	api: 4,
 	info: 5,
 	debug: 6,
+	docker: 7,
 };
 
 type logLevel = keyof typeof levels;
@@ -22,6 +24,7 @@ const colors: { [key in logLevel]: string | string[] } = {
 	info: 'blue',
 	debug: 'magenta',
 	api: ['black', 'bgWhite'],
+	docker: 'blue',
 };
 
 const maxLevelLength = _(levels)
@@ -42,16 +45,18 @@ const formatter = winston.format.printf((args) => {
 	)}${message}`;
 });
 
+export const logBuffer = new LogBuffer();
+
 export const winstonLog = (winston.createLogger({
 	format: winston.format.combine(winston.format.colorize(), formatter),
-	transports: [new winston.transports.Console()],
+	transports: [new winston.transports.Console(), logBuffer],
 	// In the future we can reduce this logging level in
 	// certain scenarios, but for now we don't want to ignore
 	// any debugging without a rock solid method of making
 	// sure that debug logs are shown. For example a switch on
 	// the dashboard, a supervisor api call and supervisor
 	// process crash detection
-	level: 'debug',
+	level: 'docker',
 	levels,
 	// A bit hacky to get all the correct types for the logger
 	// below, we first cast to unknown so we can do what we
@@ -85,6 +90,7 @@ export const log: { [key in logLevel]: (...messageParts: any[]) => void } = {
 	info: messageFormatter(winstonLog.info),
 	debug: messageFormatter(winstonLog.debug),
 	api: messageFormatter(winstonLog.api),
+	docker: messageFormatter(winstonLog.docker),
 };
 
 export default log;
