@@ -1,4 +1,17 @@
 - commits:
+    - subject: Change log source from docker to journalctl
+      hash: 25de39c04db81477df8e72ed8279fdd5064da38b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thomas Manning <thomasm@balena.io>
+        signed-off-by: Thomas Manning <thomasm@balena.io>
+      author: Thomas Manning
+      nested: []
+  version: 12.1.0
+  date: 2020-10-15T08:13:37.633Z
+- commits:
     - subject: Improve calculation for used system memory
       hash: dd5f62227a0b0d2024db924e7028c9fec8b2b1d9
       body: >
