@@ -344,13 +344,19 @@ export async function addFeaturesFromLabels(
 				? service.config.volumes.push('/lib/firmware:/lib/firmware')
 				: null,
 		'io.balena.features.balena-socket': () => {
+			// Mount in /host/run to avoid clashing with systemd
+			const dstDockerSocket = '/host/run/balena-engine.sock';
+			service.config.volumes.push(
+				`${constants.dockerSocket}:${dstDockerSocket}`,
+			);
+
+			// Maintain the /var/run mount for backwards compatibility
 			service.config.volumes.push(
 				`${constants.dockerSocket}:${constants.dockerSocket}`,
 			);
+
 			if (service.config.environment['DOCKER_HOST'] == null) {
-				service.config.environment[
-					'DOCKER_HOST'
-				] = `unix://${constants.dockerSocket}`;
+				service.config.environment['DOCKER_HOST'] = `unix://${dstDockerSocket}`;
 			}
 			// We keep balena.sock for backwards compatibility
 			if (constants.dockerSocket !== '/var/run/balena.sock') {
