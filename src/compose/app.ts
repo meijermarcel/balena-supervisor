@@ -336,12 +336,10 @@ export class App {
 
 		const needUpdate = maybeUpdate.filter(
 			(serviceId) =>
-				!(
-					currentByServiceId[serviceId].isEqual(
-						targetByServiceId[serviceId],
-						containerIds,
-					) && alreadyStarted(serviceId)
-				),
+				!currentByServiceId[serviceId].isEqual(
+					targetByServiceId[serviceId],
+					containerIds,
+				) && !alreadyStarted(serviceId),
 		);
 		const toBeUpdated = needUpdate.map((serviceId) => ({
 			current: currentByServiceId[serviceId],
