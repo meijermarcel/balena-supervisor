@@ -1,4 +1,21 @@
 - commits:
+    - subject: Change source of deviceType to device-type.json
+      hash: 2f88ce040917e02794c6d9e1f834e8c430148b4a
+      body: |
+        The source of truth for the device-type should be
+        device-type.json instead of config.json
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Felipe Lalanne <felipe@balena.io>
+        signed-off-by: Felipe Lalanne <felipe@balena.io>
+        Connects-to: '#1472'
+        connects-to: '#1472'
+      author: Felipe Lalanne
+      nested: []
+  version: 12.0.8
+  date: 2020-10-22T13:29:51.084Z
+- commits:
     - subject: Improved log message when networks do not match
       hash: edf23871d9a057b9bae8837f3ee39d7401247514
       body: ''
